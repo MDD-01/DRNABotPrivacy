@@ -3,224 +3,905 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DARNA Bot - Privacy Policy</title>
-
+<title>DARNA Bot — Privacy Policy</title>
 <style>
-:root{
---gold:#d4af37;
---gold2:#f7d774;
---text:#f8fafc;
---muted:#cbd5e1;
---glass:rgba(10,15,25,.72);
---glass2:rgba(20,30,50,.55);
---border:rgba(212,175,55,.25);
---shadow:0 20px 60px rgba(0,0,0,.55);
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold: #d4af37;
+  --gold2: #f7d774;
+  --gold3: #ffe87c;
+  --dark: #060c18;
+  --text: #e8f0ff;
+  --muted: #7a90b8;
+  --glass: rgba(6, 12, 28, 0.78);
+  --glass2: rgba(12, 22, 45, 0.62);
+  --border: rgba(212, 175, 55, 0.28);
 }
 
-body{
-margin:0;
-font-family:Arial,sans-serif;
-color:var(--text);
-background:url("Darna background.png") no-repeat center center fixed;
-background-size:cover;
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--dark); }
+::-webkit-scrollbar-thumb { background: linear-gradient(var(--gold), var(--gold2)); border-radius: 3px; }
+
+body {
+  min-height: 100vh;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--text);
+  background: var(--dark);
+  overflow-x: hidden;
 }
 
-.overlay{
-min-height:100vh;
-padding:28px 18px 50px;
-background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.85));
+/* ── BACKGROUNDS ── */
+#bg-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
 }
 
-.topbar{
-max-width:980px;
-margin:0 auto 18px;
-display:flex;
-align-items:center;
-justify-content:space-between;
+.bg-image {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: url("Darna background.png") no-repeat center center / cover;
+  opacity: 0.12;
+  pointer-events: none;
 }
 
-.brand{
-display:flex;
-align-items:center;
-gap:12px;
+/* ── PROGRESS BAR ── */
+#prog {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--gold), var(--gold3), var(--gold));
+  box-shadow: 0 0 12px var(--gold);
+  z-index: 1000;
+  transition: width 0.08s linear;
 }
 
-.brand img{
-width:54px;
-height:54px;
-object-fit:contain;
-border-radius:12px;
-padding:6px;
-background:rgba(0,0,0,.25);
+/* ── WRAPPER ── */
+.wrap {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  padding: 0 16px 100px;
 }
 
-.brand-title .name{
-font-size:18px;
-font-weight:800;
-color:var(--gold2);
+/* ── HEADER ── */
+header {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 32px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
-.lang-toggle button{
-cursor:pointer;
-border:0;
-padding:8px 14px;
-border-radius:999px;
-font-weight:700;
-background:transparent;
-color:white;
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
-.lang-toggle button.active{
-background:rgba(212,175,55,.35);
-color:var(--gold2);
+.logo-ring {
+  position: relative;
+  width: 62px;
+  height: 62px;
+  flex-shrink: 0;
 }
 
-.container{
-max-width:980px;
-margin:auto;
-border-radius:18px;
-border:1px solid var(--border);
-background:linear-gradient(180deg,var(--glass),var(--glass2));
-box-shadow:var(--shadow);
-padding:30px;
+.logo-ring::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 18px;
+  padding: 3px;
+  background: linear-gradient(135deg, var(--gold), transparent 60%, var(--gold2));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: borderSpin 4s linear infinite;
 }
 
-h1,h2{color:var(--gold2);}
-p,li{line-height:1.7;}
-
-.footer{
-margin-top:22px;
-padding-top:14px;
-border-top:1px solid rgba(255,255,255,.08);
-font-size:13px;
-display:flex;
-justify-content:space-between;
-flex-wrap:wrap;
+@keyframes borderSpin {
+  to { filter: hue-rotate(360deg); }
 }
 
-.rtl{
-direction:rtl;
-text-align:right;
+.logo-ring img {
+  width: 62px;
+  height: 62px;
+  object-fit: contain;
+  border-radius: 14px;
+  animation: float 5s ease-in-out infinite;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 0 14px rgba(212,175,55,.5));
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+.brand-text .name {
+  font-size: 21px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  background: linear-gradient(135deg, var(--gold2), var(--gold3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.brand-text .sub {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+/* ── LANG TOGGLE ── */
+.lang-wrap {
+  position: relative;
+  display: flex;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  padding: 4px;
+}
+
+.pill {
+  position: absolute;
+  top: 4px; left: 4px;
+  height: calc(100% - 8px);
+  width: calc(50% - 4px);
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  border-radius: 50px;
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+  box-shadow: 0 0 18px rgba(212,175,55,.35);
+}
+
+.pill.to-ar { transform: translateX(100%); }
+
+.lang-wrap button {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: color .3s;
+  letter-spacing: .5px;
+}
+
+.lang-wrap button.active { color: #111100; }
+
+/* ── HERO ── */
+.hero {
+  max-width: 920px;
+  margin: 60px auto 44px;
+  text-align: center;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 18px;
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gold2);
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  background: rgba(212,175,55,.07);
+  margin-bottom: 22px;
+  animation: fadeUp .7s ease both;
+}
+
+.badge .dot {
+  width: 6px; height: 6px;
+  background: var(--gold2);
+  border-radius: 50%;
+  animation: blink 2.2s ease infinite;
+}
+
+@keyframes blink {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .3; transform: scale(.7); }
+}
+
+.hero h1 {
+  font-size: clamp(30px, 5.5vw, 56px);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 18px;
+  background: linear-gradient(150deg, #fff 10%, var(--gold2) 55%, var(--gold3) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: fadeUp .8s ease .15s both;
+}
+
+.hero-meta {
+  font-size: 13px;
+  color: var(--muted);
+  animation: fadeUp .8s ease .3s both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── STATS ── */
+.stats {
+  max-width: 920px;
+  margin: 0 auto 52px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  animation: fadeUp .8s ease .45s both;
+}
+
+.stat {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 24px 16px;
+  text-align: center;
+  backdrop-filter: blur(22px);
+  transition: transform .3s, box-shadow .3s;
+  cursor: default;
+}
+
+.stat:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(212,175,55,.14);
+}
+
+.stat-n {
+  font-size: 32px;
+  font-weight: 900;
+  display: block;
+  background: linear-gradient(135deg, var(--gold2), var(--gold3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.stat-l {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-top: 5px;
+}
+
+/* ── MAIN CARD ── */
+.card {
+  max-width: 920px;
+  margin: 0 auto;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 26px;
+  backdrop-filter: blur(32px);
+  box-shadow: 0 40px 100px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.04);
+  overflow: hidden;
+}
+
+.card-head {
+  padding: 26px 36px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(90deg, rgba(212,175,55,.07), transparent);
+}
+
+.head-dot {
+  width: 9px; height: 9px;
+  background: var(--gold2);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--gold);
+  animation: blink 2s ease infinite;
+}
+
+.head-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gold2);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.card-body {
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── SECTIONS ── */
+.sec {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+
+.sec.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sec-inner {
+  position: relative;
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(212,175,55,.1);
+  border-radius: 18px;
+  padding: 28px 28px 24px;
+  transition: border-color .3s, box-shadow .3s, transform .25s;
+  cursor: default;
+}
+
+.sec-inner:hover {
+  border-color: rgba(212,175,55,.3);
+  box-shadow: 0 6px 30px rgba(212,175,55,.08), inset 0 0 40px rgba(212,175,55,.02);
+  transform: translateY(-3px);
+}
+
+.sec-tag {
+  position: absolute;
+  top: -13px; left: 22px;
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  color: #0d0c00;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  padding: 4px 14px;
+  border-radius: 50px;
+  text-transform: uppercase;
+}
+
+.sec h2 {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--gold2);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ico {
+  font-size: 22px;
+  filter: drop-shadow(0 0 8px rgba(212,175,55,.5));
+  animation: float 4s ease-in-out infinite;
+}
+
+.sec p {
+  color: #bfcce0;
+  line-height: 1.85;
+  font-size: 14.5px;
+}
+
+.sec ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 8px;
+}
+
+.sec li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 14px;
+  background: rgba(212,175,55,.05);
+  border: 1px solid rgba(212,175,55,.1);
+  border-radius: 10px;
+  font-size: 13px;
+  color: #bfcce0;
+  transition: background .25s, border-color .25s, transform .2s;
+}
+
+.sec li:hover {
+  background: rgba(212,175,55,.12);
+  border-color: rgba(212,175,55,.28);
+  transform: translateX(4px);
+}
+
+.sec li::before {
+  content: '◆';
+  color: var(--gold2);
+  font-size: 7px;
+  flex-shrink: 0;
+}
+
+/* ── FOOTER ── */
+.card-foot {
+  padding: 22px 36px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: linear-gradient(90deg, rgba(212,175,55,.04), transparent);
+}
+
+.foot-copy {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.foot-copy span { color: var(--gold2); font-weight: 700; }
+
+.foot-contact {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  padding: 8px 18px;
+  background: rgba(212,175,55,.05);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  transition: background .25s, color .25s, box-shadow .25s;
+  cursor: default;
+}
+
+.foot-contact:hover {
+  background: rgba(212,175,55,.14);
+  color: var(--gold2);
+  box-shadow: 0 0 20px rgba(212,175,55,.12);
+}
+
+/* ── SCROLL TOP ── */
+#up {
+  position: fixed;
+  bottom: 32px; right: 32px;
+  width: 46px; height: 46px;
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  border: none;
+  border-radius: 50%;
+  color: #111100;
+  font-size: 20px;
+  font-weight: 900;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(12px) scale(.8);
+  transition: opacity .35s, transform .35s;
+  z-index: 200;
+  box-shadow: 0 6px 24px rgba(212,175,55,.4);
+}
+
+#up.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+#up:hover { transform: translateY(-3px) scale(1.08); }
+
+/* ── RTL ── */
+.rtl { direction: rtl; text-align: right; }
+.rtl .sec-tag { left: auto; right: 22px; }
+.rtl .card-head { background: linear-gradient(270deg, rgba(212,175,55,.07), transparent); }
+.rtl .card-foot { background: linear-gradient(270deg, rgba(212,175,55,.04), transparent); }
+.rtl .sec li:hover { transform: translateX(-4px); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 620px) {
+  .stats { grid-template-columns: 1fr; }
+  .card-body { padding: 24px 18px; }
+  .card-head, .card-foot { padding: 20px 18px; }
+  .sec-inner { padding: 26px 18px 20px; }
+  .sec ul { grid-template-columns: 1fr; }
+  header { flex-direction: column; align-items: flex-start; }
 }
 </style>
 </head>
 
 <body>
-<div class="overlay">
+<div id="prog"></div>
+<div class="bg-image"></div>
+<canvas id="bg-canvas"></canvas>
 
-<div class="topbar">
-<div class="brand">
-<img src="Darna logo.png" alt="DARNA Logo">
-<div class="brand-title">
-<div class="name">DARNA</div>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <div class="logo-ring">
+        <img src="Darna logo.png" alt="DARNA">
+      </div>
+      <div class="brand-text">
+        <div class="name">DARNA</div>
+        <div class="sub">Privacy Center</div>
+      </div>
+    </div>
+    <div class="lang-wrap">
+      <div class="pill" id="pill"></div>
+      <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+      <button id="btn-ar" onclick="setLang('ar')">AR</button>
+    </div>
+  </header>
+
+  <!-- ═══ ENGLISH ═══ -->
+  <div id="privacy-en">
+    <div class="hero">
+      <div class="badge"><div class="dot"></div>Privacy Policy</div>
+      <h1>Your Privacy,<br>Our Commitment</h1>
+      <p class="hero-meta">Last Updated: February 26, 2026</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-n" data-target="0">0</span>
+        <div class="stat-l">Data Sold</div>
+      </div>
+      <div class="stat">
+        <span class="stat-n" data-target="6">0</span>
+        <div class="stat-l">Policy Sections</div>
+      </div>
+      <div class="stat">
+        <span class="stat-n">100%</span>
+        <div class="stat-l">Transparent</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="head-dot"></div>
+        <div class="head-label">DARNA Bot — Privacy Policy</div>
+      </div>
+      <div class="card-body">
+
+        <div class="sec">
+          <div class="sec-inner">
+            <div class="sec-tag">01 · Collect</div>
+            <h2><span class="ico">📊</span>Information We Collect</h2>
+            <p>DARNA may collect limited technical data necessary for functionality:</p>
+            <ul>
+              <li>User IDs</li>
+              <li>Server IDs</li>
+              <li>Role IDs</li>
+              <li>Channel IDs</li>
+              <li>Command usage logs</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="sec">
+          <div class="sec-inner">
+            <div class="sec-tag">02 · Usage</div>
+            <h2><span class="ico">⚙️</span>How We Use Data</h2>
+            <p>Data is used strictly for operating the bot, moderation logging, and improving features.</p>
+          </div>
+        </div>
+
+        <div class="sec">
+          <div class="sec-inner">
+            <div class="sec-tag">03 · Sharing</div>
+            <h2><span class="ico">🔒</span>Data Sharing</h2>
+            <p>DARNA does not sell or share collected data with third parties. Your data stays with us.</p>
+          </div>
+        </div>
+
+        <div class="sec">
+          <div class="sec-inner">
+            <div class="sec-tag">04 · Security</div>
+            <h2><span class="ico">🛡️</span>Data Security</h2>
+            <p>We apply reasonable protection measures, but no system is 100% secure.</p>
+          </div>
+        </div>
+
+        <div class="sec">
+          <div class="sec-inner">
+            <div class="sec-tag">05 · Removal</div>
+            <h2><span class="ico">🗑️</span>Data Removal</h2>
+            <p>Server owners may request data removal by contacting the developer directly.</p>
+          </div>
+        </div>
+
+        <div class="sec">
+          <div class="sec-inner">
+            <div class="sec-tag">06 · Updates</div>
+            <h2><span class="ico">📋</span>Changes to Policy</h2>
+            <p>This policy may be updated at any time. Continued use of DARNA means acceptance.</p>
+          </div>
+        </div>
+
+      </div>
+      <div class="card-foot">
+        <div class="foot-copy">© 2026 <span>DARNA Bot</span>. All rights reserved.</div>
+        <div class="foot-contact">💬 Contact Developer via Discord</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ARABIC ═══ -->
+  <div id="privacy-ar" class="rtl" style="display:none;">
+    <div class="hero">
+      <div class="badge"><div class="dot"></div>سياسة الخصوصية</div>
+      <h1>خصوصيتك<br>التزامنا</h1>
+      <p class="hero-meta">آخر تحديث: 26 فبراير 2026</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-n">0</span>
+        <div class="stat-l">بيانات مباعة</div>
+      </div>
+      <div class="stat">
+        <span class="stat-n">6</span>
+        <div class="stat-l">أقسام السياسة</div>
+      </div>
+      <div class="stat">
+        <span class="stat-n">100%</span>
+        <div class="stat-l">شفافية تامة</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="head-dot"></div>
+        <div class="head-label">بوت دارنا — سياسة الخصوصية</div>
+      </div>
+      <div class="card-body">
+
+        <div class="sec">
+          <div class="sec-inner">
+            <div class="sec-tag">01 · جمع</div>
+            <h2><span class="ico">📊</span>المعلومات التي نجمعها</h2>
+            <p>قد يجمع البوت بيانات بسيطة ضرورية لعمله مثل:</p>
+            <ul>
+              <li>معرف المستخدم</li>
+              <li>معرف السيرفر</li>
+              <li>معرف الرتب</li>
+              <li>معرف القنوات</li>
+              <li>سجل الأوامر</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="sec">
+          <div class="sec-inner">
+            <div class="sec-tag">02 · استخدام</div>
+            <h2><span class="ico">⚙️</span>استخدام البيانات</h2>
+            <p>تُستخدم البيانات فقط لتشغيل البوت وتحسين ميزاته.</p>
+          </div>
+        </div>
+
+        <div class="sec">
+          <div class="sec-inner">
+            <div class="sec-tag">03 · مشاركة</div>
+            <h2><span class="ico">🔒</span>مشاركة البيانات</h2>
+            <p>لا يتم بيع أو مشاركة البيانات مع أي طرف ثالث. بياناتك تبقى معنا.</p>
+          </div>
+        </div>
+
+        <div class="sec">
+          <div class="sec-inner">
+            <div class="sec-tag">04 · حماية</div>
+            <h2><span class="ico">🛡️</span>حماية البيانات</h2>
+            <p>نطبق إجراءات حماية مناسبة، لكن لا يوجد نظام آمن 100%.</p>
+          </div>
+        </div>
+
+        <div class="sec">
+          <div class="sec-inner">
+            <div class="sec-tag">05 · حذف</div>
+            <h2><span class="ico">🗑️</span>حذف البيانات</h2>
+            <p>يمكن طلب حذف البيانات بالتواصل مع مطور البوت مباشرة.</p>
+          </div>
+        </div>
+
+        <div class="sec">
+          <div class="sec-inner">
+            <div class="sec-tag">06 · تحديث</div>
+            <h2><span class="ico">📋</span>التحديثات</h2>
+            <p>قد يتم تحديث السياسة في أي وقت، واستمرار الاستخدام يعني الموافقة.</p>
+          </div>
+        </div>
+
+      </div>
+      <div class="card-foot">
+        <div class="foot-copy">© 2026 <span>DARNA Bot</span>. جميع الحقوق محفوظة.</div>
+        <div class="foot-contact">💬 للتواصل عبر دسكورد</div>
+      </div>
+    </div>
+  </div>
+
 </div>
-</div>
 
-<div class="lang-toggle">
-<button id="btn-en" class="active" onclick="setLang('en')">English</button>
-<button id="btn-ar" onclick="setLang('ar')">العربية</button>
-</div>
-</div>
-
-<div class="container">
-
-<!-- ENGLISH -->
-<div id="privacy-en">
-<h1>DARNA Bot — Privacy Policy</h1>
-<p><strong>Last Updated:</strong> February 26, 2026</p>
-
-<h2>1. Information We Collect</h2>
-<p>DARNA may collect limited technical data necessary for functionality:</p>
-<ul>
-<li>User IDs</li>
-<li>Server IDs</li>
-<li>Role IDs</li>
-<li>Channel IDs</li>
-<li>Command usage logs</li>
-</ul>
-
-<h2>2. How We Use Data</h2>
-<p>Data is used strictly for operating the bot, moderation logging, and improving features.</p>
-
-<h2>3. Data Sharing</h2>
-<p>DARNA does not sell or share collected data with third parties.</p>
-
-<h2>4. Data Security</h2>
-<p>We apply reasonable protection measures, but no system is 100% secure.</p>
-
-<h2>5. Data Removal</h2>
-<p>Server owners may request data removal by contacting the developer.</p>
-
-<h2>6. Changes to Policy</h2>
-<p>This policy may be updated at any time. Continued use means acceptance.</p>
-
-<div class="footer">
-<div>© 2026 DARNA Bot</div>
-<div>Contact: Developer via Discord</div>
-</div>
-</div>
-
-<!-- ARABIC -->
-<div id="privacy-ar" class="rtl" style="display:none;">
-<h1>بوت دارنا — سياسة الخصوصية</h1>
-<p><strong>آخر تحديث:</strong> 26 فبراير 2026</p>
-
-<h2>1. المعلومات التي نجمعها</h2>
-<p>قد يجمع البوت بيانات بسيطة ضرورية لعمله مثل:</p>
-<ul>
-<li>معرف المستخدم</li>
-<li>معرف السيرفر</li>
-<li>معرف الرتب</li>
-<li>معرف القنوات</li>
-<li>سجل الأوامر</li>
-</ul>
-
-<h2>2. استخدام البيانات</h2>
-<p>تُستخدم البيانات فقط لتشغيل البوت وتحسين ميزاته.</p>
-
-<h2>3. مشاركة البيانات</h2>
-<p>لا يتم بيع أو مشاركة البيانات مع أي طرف ثالث.</p>
-
-<h2>4. حماية البيانات</h2>
-<p>نطبق إجراءات حماية مناسبة، لكن لا يوجد نظام آمن 100%.</p>
-
-<h2>5. حذف البيانات</h2>
-<p>يمكن طلب حذف البيانات بالتواصل مع مطور البوت.</p>
-
-<h2>6. التحديثات</h2>
-<p>قد يتم تحديث السياسة في أي وقت، واستمرار الاستخدام يعني الموافقة.</p>
-
-<div class="footer">
-<div>© 2026 DARNA Bot</div>
-<div>للتواصل: عبر دسكورد</div>
-</div>
-</div>
-
-</div>
-</div>
+<button id="up" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script>
-function setLang(lang){
-const en=document.getElementById("privacy-en");
-const ar=document.getElementById("privacy-ar");
-const btnEn=document.getElementById("btn-en");
-const btnAr=document.getElementById("btn-ar");
+// ════════════════════════════════════════
+//  PARTICLE CANVAS
+// ════════════════════════════════════════
+(function () {
+  const cvs = document.getElementById('bg-canvas');
+  const ctx = cvs.getContext('2d');
+  let W, H, pts = [];
+  const mouse = { x: -9999, y: -9999 };
 
-if(lang==="ar"){
-en.style.display="none";
-ar.style.display="block";
-btnEn.classList.remove("active");
-btnAr.classList.add("active");
-document.title="DARNA Bot - سياسة الخصوصية";
-}else{
-ar.style.display="none";
-en.style.display="block";
-btnAr.classList.remove("active");
-btnEn.classList.add("active");
-document.title="DARNA Bot - Privacy Policy";
+  function resize() {
+    W = cvs.width = window.innerWidth;
+    H = cvs.height = window.innerHeight;
+  }
+
+  class P {
+    constructor() { this.init(); }
+    init() {
+      this.x  = Math.random() * W;
+      this.y  = Math.random() * H;
+      this.vx = (Math.random() - .5) * .45;
+      this.vy = (Math.random() - .5) * .45;
+      this.r  = Math.random() * 1.8 + .4;
+      this.ba = Math.random() * .45 + .1;
+      this.a  = this.ba;
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.x < 0 || this.x > W) this.vx *= -1;
+      if (this.y < 0 || this.y > H) this.vy *= -1;
+
+      const dx = mouse.x - this.x;
+      const dy = mouse.y - this.y;
+      const d  = Math.sqrt(dx * dx + dy * dy);
+      if (d < 130) {
+        const f = (130 - d) / 130;
+        this.vx -= (dx / d) * f * .025;
+        this.vy -= (dy / d) * f * .025;
+        this.a   = Math.min(.9, this.ba + f * .7);
+      } else {
+        this.a += (this.ba - this.a) * .06;
+      }
+
+      const spd = Math.hypot(this.vx, this.vy);
+      if (spd > 1.4) { this.vx *= .94; this.vy *= .94; }
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(212,175,55,${this.a})`;
+      ctx.fill();
+    }
+  }
+
+  function spawn() {
+    const n = Math.min(130, Math.floor(W * H / 10000));
+    pts = Array.from({ length: n }, () => new P());
+  }
+
+  function lines() {
+    const MAX = 125;
+    for (let i = 0; i < pts.length; i++) {
+      for (let j = i + 1; j < pts.length; j++) {
+        const dx = pts[i].x - pts[j].x;
+        const dy = pts[i].y - pts[j].y;
+        const d  = Math.sqrt(dx * dx + dy * dy);
+        if (d < MAX) {
+          ctx.beginPath();
+          ctx.moveTo(pts[i].x, pts[i].y);
+          ctx.lineTo(pts[j].x, pts[j].y);
+          ctx.strokeStyle = `rgba(212,175,55,${(1 - d / MAX) * .15})`;
+          ctx.lineWidth = .7;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function tick() {
+    ctx.clearRect(0, 0, W, H);
+    lines();
+    pts.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(tick);
+  }
+
+  window.addEventListener('resize', () => { resize(); spawn(); });
+  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  resize(); spawn(); tick();
+})();
+
+// ════════════════════════════════════════
+//  SCROLL: PROGRESS + REVEAL + UP BTN
+// ════════════════════════════════════════
+const prog = document.getElementById('prog');
+const up   = document.getElementById('up');
+
+window.addEventListener('scroll', () => {
+  const s = window.scrollY;
+  const m = document.documentElement.scrollHeight - window.innerHeight;
+  prog.style.width = (s / m * 100) + '%';
+  up.classList.toggle('show', s > 280);
+});
+
+// ════════════════════════════════════════
+//  INTERSECTION OBSERVER — SECTION REVEAL
+// ════════════════════════════════════════
+const io = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting)
+      setTimeout(() => e.target.classList.add('in'), i * 90);
+  });
+}, { threshold: .08 });
+
+function watchSections() {
+  document.querySelectorAll('.sec').forEach(s => {
+    s.classList.remove('in');
+    io.observe(s);
+  });
 }
+watchSections();
+
+// ════════════════════════════════════════
+//  ANIMATED COUNTER
+// ════════════════════════════════════════
+const cio = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.querySelectorAll('.stat-n[data-target]').forEach(el => {
+      const end = +el.dataset.target;
+      const dur = 1400;
+      const t0  = performance.now();
+      function step(now) {
+        const p = Math.min((now - t0) / dur, 1);
+        el.textContent = Math.round((1 - Math.pow(1 - p, 3)) * end);
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+    cio.unobserve(e.target);
+  });
+}, { threshold: .5 });
+
+document.querySelectorAll('.stats').forEach(el => cio.observe(el));
+
+// ════════════════════════════════════════
+//  LANGUAGE TOGGLE
+// ════════════════════════════════════════
+function setLang(lang) {
+  const en    = document.getElementById('privacy-en');
+  const ar    = document.getElementById('privacy-ar');
+  const btnEn = document.getElementById('btn-en');
+  const btnAr = document.getElementById('btn-ar');
+  const pill  = document.getElementById('pill');
+
+  if (lang === 'ar') {
+    en.style.display = 'none';
+    ar.style.display = 'block';
+    btnEn.classList.remove('active');
+    btnAr.classList.add('active');
+    pill.classList.add('to-ar');
+    document.documentElement.lang = 'ar';
+    document.title = 'DARNA Bot — سياسة الخصوصية';
+  } else {
+    ar.style.display = 'none';
+    en.style.display = 'block';
+    btnAr.classList.remove('active');
+    btnEn.classList.add('active');
+    pill.classList.remove('to-ar');
+    document.documentElement.lang = 'en';
+    document.title = 'DARNA Bot — Privacy Policy';
+  }
+
+  setTimeout(watchSections, 60);
 }
 </script>
-
 </body>
 </html>
